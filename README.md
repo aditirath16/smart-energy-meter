@@ -73,8 +73,9 @@ Driver Pulses: 10
 Total Pulses: 10
 Total Energy: 0.01 kWh
 Window Size: 3
-Window Average: 0.009 kWh
-Status: HIGH CONSUMPTION
+Window Average: 0.001 kWh
+Peak Threshold: 0.004 kWh
+Status: NORMAL CONSUMPTION
 
 ## Configuration
 

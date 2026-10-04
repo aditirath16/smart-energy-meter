@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 
@@ -14,12 +15,10 @@ extern "C" {
 }
 
 int main() {
-
-    // Create a residential meter using the Factory
     auto meter = MeterFactory::createMeter(
         "Residential",
         "MTR001",
-        1000
+        0
     );
 
     if (!meter) {
@@ -48,23 +47,34 @@ int main() {
         meter_pulse_interrupt();
 
         // Read the current driver pulse count
-        int driverPulseCount = get_pulse_count();
+        int driverPulseCount =
+            get_pulse_count();
 
         // Transfer the new pulse to the C++ analytics engine
-        if (driverPulseCount > counter.getTotalPulses()) {
+        if (driverPulseCount >
+            counter.getTotalPulses()) {
 
             Pulse pulse;
 
             counter.recordPulse(pulse);
 
+            // Add the pulse to total energy calculation
             aggregator.addPulses(
                 pulse.getValue()
             );
 
-            double energy =
-                aggregator.getEnergyKWh();
+            // Calculate energy represented by this pulse
+            double intervalEnergy =
+                static_cast<double>(
+                    pulse.getValue()
+                ) /
+                meter->getPulsesPerKWh();
 
-            window.addValue(energy);
+            // Store recent interval energy
+            // in the sliding window
+            window.addValue(
+                intervalEnergy
+            );
         }
     }
 
@@ -112,6 +122,10 @@ int main() {
 
     std::cout << "Window Average: "
               << average
+              << " kWh\n";
+
+    std::cout << "Peak Threshold: "
+              << detector.getThreshold()
               << " kWh\n";
 
     std::cout << "Status: "
