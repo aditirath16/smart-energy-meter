@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "MeterFactory.h"
 #include "Pulse.h"
@@ -7,6 +8,10 @@
 #include "SlidingWindow.h"
 #include "PeakDetector.h"
 #include "Logger.h"
+
+extern "C" {
+#include "../driver/virtual_meter_driver.h"
+}
 
 int main() {
 
@@ -33,21 +38,34 @@ int main() {
 
     PeakDetector detector(0.004);
 
-    // Simulate 10 incoming meter pulses
+    // Reset the virtual driver before starting
+    reset_pulse_count();
+
+    // Simulate incoming meter pulses through the virtual driver
     for (int i = 0; i < 10; i++) {
 
-        Pulse pulse;
+        // Driver receives a pulse event
+        meter_pulse_interrupt();
 
-        counter.recordPulse(pulse);
+        // Read the current driver pulse count
+        int driverPulseCount = get_pulse_count();
 
-        aggregator.addPulses(
-            pulse.getValue()
-        );
+        // Transfer the new pulse to the C++ analytics engine
+        if (driverPulseCount > counter.getTotalPulses()) {
 
-        double energy =
-            aggregator.getEnergyKWh();
+            Pulse pulse;
 
-        window.addValue(energy);
+            counter.recordPulse(pulse);
+
+            aggregator.addPulses(
+                pulse.getValue()
+            );
+
+            double energy =
+                aggregator.getEnergyKWh();
+
+            window.addValue(energy);
+        }
     }
 
     // Calculate recent energy average
@@ -74,6 +92,10 @@ int main() {
 
     std::cout << "Meter Type: "
               << meter->getMeterType()
+              << "\n";
+
+    std::cout << "Driver Pulses: "
+              << get_pulse_count()
               << "\n";
 
     std::cout << "Total Pulses: "
