@@ -47,20 +47,29 @@ MeterFactory
 
 ## Run
 
-Compile:
+Navigate to the project directory:
 
-g++ -std=c++17 src/*.cpp -Iinclude -o smart_meter_linux
+cd smart-energy-meter
+
+Compile the virtual meter driver:
+
+gcc -c driver/virtual_meter_driver.c -o virtual_meter_driver.o
+
+Compile and link the C++ application with the driver:
+
+g++ -std=c++17 src/*.cpp virtual_meter_driver.o -Iinclude -o smart_meter_linux
 
 Run:
 
 ./smart_meter_linux
 
-Example output:
+## Example Output
 
 Smart Energy Meter System
 --------------------------
 Meter ID: MTR001
 Meter Type: Residential
+Driver Pulses: 10
 Total Pulses: 10
 Total Energy: 0.01 kWh
 Window Size: 3
