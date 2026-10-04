@@ -1,0 +1,2 @@
+Meter_ID,Meter_Type,Total_Pulses,Total_Energy_kWh,Window_Size,Peak_Threshold,Status
+MTR001,Residential,10,0.01,3,0.004,HIGH CONSUMPTION

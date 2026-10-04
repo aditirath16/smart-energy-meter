@@ -1,0 +1,5 @@
+*.exe
+smart_meter_linux
+*.o
+*.ko
+build/

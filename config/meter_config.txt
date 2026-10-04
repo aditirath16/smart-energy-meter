@@ -1,0 +1,5 @@
+MeterID=MTR001
+MeterType=Residential
+PulsesPerKWh=1000
+WindowSize=3
+PeakThreshold=0.004
