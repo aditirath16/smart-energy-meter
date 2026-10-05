@@ -69,13 +69,22 @@ Smart Energy Meter System
 --------------------------
 Meter ID: MTR001
 Meter Type: Residential
+Peak Threshold: 0.004 kWh
+
+[Normal Consumption Test]
 Driver Pulses: 10
 Total Pulses: 10
 Total Energy: 0.01 kWh
 Window Size: 3
 Window Average: 0.001 kWh
-Peak Threshold: 0.004 kWh
 Status: NORMAL CONSUMPTION
+
+[High Consumption Test]
+Pulse intervals: 1, 1, 2, 6, 5
+Driver Pulses: 15
+Window Size: 3
+Window Average: 0.00433333 kWh
+Status: HIGH CONSUMPTION
 
 ## Configuration
 
