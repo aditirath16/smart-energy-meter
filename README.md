@@ -52,15 +52,12 @@ Navigate to the project directory:
 cd smart-energy-meter
 
 Compile the virtual meter driver:
-
-gcc -c driver/virtual_meter_driver.c -o virtual_meter_driver.o
+gcc -c driver/virtual_meter_driver.c -o driver.o
 
 Compile and link the C++ application with the driver:
-
-g++ -std=c++17 src/*.cpp virtual_meter_driver.o -Iinclude -o smart_meter_linux
+g++ -std=c++17 src/*.cpp driver.o -Iinclude -o smart_meter_linux
 
 Run:
-
 ./smart_meter_linux
 
 ## Example Output
